@@ -1,0 +1,122 @@
+do{
+            System.out.println("\nVeuillez choisir l'enseignement correspondant : ");
+            Enseignement.afficherTout();
+            System.out.print("\tChoix : ");
+            int sc1 = sc.nextInt();
+            Enseignement enseignement0 = Enseignement.getListeEns().get(sc1-1);
+
+            do{
+                System.out.println("\nVeuillez choisir la classe correspondante : ");
+                List<Classe> listClasse0 = Classe.getListeClass();
+                for (Classe classe : listClasse0) {
+                    if (classe.getNiveau().getLibelle().equals(enseignement0.getNiveau().getLibelle())){
+                        System.out.println(listClasse0.indexOf(classe) + ". " + classe);
+                    }
+                }
+                System.out.print("\tChoix : ");
+                int sc3 = sc.nextInt();
+                Classe classe0 = Classe.getListeClass().get(sc3-1);
+
+                do{
+                    System.out.println("\nVeuillez choisir le type de l'évaluation :  ");
+                    Type.afficherTout();
+                    System.out.print("\tChoix : ");
+                    int sc4 = sc.nextInt();
+                    Type type0 = Type.getListeType().get(sc4-1);
+
+                    List<Evaluation> evaListe = Evaluation.getListeEval();
+                    int id0 = 0;
+                    for (Evaluation evaluation : evaListe) {
+                        if(evaluation.getPeriode() == periode0 &&
+                                evaluation.getCours().getEnseignement()== enseignement0 &&
+                                evaluation.getCours().getClasse() == classe0 &&
+                                evaluation.getType() == type0){
+                            id0 = Evaluation.getListeEval().indexOf(evaluation);
+                        }
+                    }
+                    Evaluation evaluation0 = Evaluation.getListeEval().get(id0);
+                    System.out.println("\nVeuillez entrez le poids de l'évaluation : ");
+                    double sc5 = sc.nextDouble();
+                    sc.nextLine();
+                    evaluation0.setPoids(sc5);
+                    evaluation0.setDate(LocalDate.MAX);
+
+                    List<Eleve> eleves0 = classe0.getListeElev();
+                    for (Eleve eleve : eleves0) {
+                        System.out.print("\nVeuillez entrer la note de "+eleve.getNom()+
+                        " "+eleve.getPrenom()+ " : ");
+                        double sc6 = sc.nextDouble();
+                        sc.nextLine();
+                        eleve.ajouterNote(evaluation0, sc6);
+                    }
+
+                    sc.nextLine();
+                    System.out.println("\nVoulez-vous choisir un autre type ?");
+                    st2 = sc.nextLine().charAt(0);
+                }while(st2 != 'n');
+
+                sc.nextLine();
+                System.out.println("\nVoulez-vous choisir une autre classe ?");
+                st1 = sc.nextLine().charAt(0);
+            }while(st1 != 'n');
+
+            sc.nextLine();
+            System.out.println("\nVoulez-vous choisir un autre enseignement ?");
+            st0 = sc.nextLine().charAt(0);
+        }while(st0 != 'n');
+
+
+
+
+double noteInterro = 0;
+        double noteDST = 0;
+        double noteTP = 0;
+        double noteEX = 0;
+        int idEns = 0;
+        for (Note note : noteList) {
+            switch (note.getEvaluation().getType().getCode()) {
+                case "interro":
+                    noteInterro = note.getValeur()*note.getEvaluation().getPoids();
+                    break;
+                case "dst":
+                    noteDST = note.getValeur()*note.getEvaluation().getPoids();
+                    break;
+                case "ex":
+                    noteEX = note.getValeur()*note.getEvaluation().getPoids();
+                    break;
+                case "tp":
+                    noteTP = note.getValeur()*note.getEvaluation().getPoids();
+                    break;
+            }
+
+
+for (Enseignement enseignement : ensList) {
+                if (enseignement.getMatiere().getLibelle().equals(note.getEvaluation().
+                        getCours().getEnseignement().getMatiere().getLibelle()) &&
+                        enseignement.getNiveau() == eleve1.getClasse().getNiveau()){
+                    idEns = ensList.indexOf(enseignement);
+                }
+            }
+
+            System.out.printf("\t|%-21s|%-7.2f|%-7.2f|%-7.2f|%-7.2f|%-13d|%-9.2f|%-7d|\n",
+                    note.getEvaluation().getCours().getEnseignement().getMatiere().getLibelle(),
+                    noteInterro, noteDST, noteTP, noteEX,
+                    note.getEvaluation().getCours().getEnseignement().
+                            getCoefficient(),periode1.getMoyenneEns(eleve1
+                                    , ensList.get(idEns)), periode1.getRangEns(
+                                            eleve1, ensList.get(idEns)));
+
+for (Evaluation eval : listeEval){
+            //System.out.println(eval);
+            if (eval.getCours().getEnseignement().getMatiere()
+                    == cours.getEnseignement().getMatiere()
+                     && eval.getCours().getClasse() == cours.getClasse()){
+                List<Note> listenote = Enseignement.getListeNote();
+
+                for (Note note : listenote) {
+                    if (note.getEvaluation().getCours() == cours){
+                        total += note.getValeur() * eval.getPoids();
+                    }
+                }
+            }
+        }
